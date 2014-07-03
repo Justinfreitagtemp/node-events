@@ -28,12 +28,17 @@ function removeEventListener(listeners, callback, context) {
   return null;
 }
 
+
 function emitEvent(listeners, a1, a2) {
   var listener;
 
   if (listeners.length === 1) {
     listener = listeners[0];
-    listener[0].call(listener[1], a1, a2);
+    if (a2 === undefined) {
+      listener[0].call(listener[1], a1);
+    } else {
+      listener[0].call(listener[1], a1, a2);
+    }
     return;
   }
 

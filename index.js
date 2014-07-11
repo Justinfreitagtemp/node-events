@@ -17,9 +17,7 @@ function removeEventListener(listeners, callback, context) {
     var newListeners = [];
     for (var i = 0; i < listeners.length; i++) {
       var listener = listeners[i];
-      if (listener[0] !== callback) {
-        newListeners[newListeners.length] = listener;
-      } else if (context && context !== listener[1]) {
+      if (listener[0] !== callback || (context && context !== listener[1])) {
         newListeners[newListeners.length] = listener;
       }
     }

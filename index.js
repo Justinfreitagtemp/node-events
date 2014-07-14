@@ -136,7 +136,6 @@ EventEmitter.prototype.setMaxListeners = function () {
 };
 
 EventEmitter.EventEmitter = EventEmitter;
-EventEmitter.EventEmitter3 = EventEmitter;
 
 module.exports = EventEmitter;
 

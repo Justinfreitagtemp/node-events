@@ -1,4 +1,4 @@
-# node-events [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url]
+# node-events [![NPM version][npm-image]][npm-url]
 
 **node-events** is a drop in replacement for the [Node.js Events][node-events]
 module.
@@ -8,9 +8,6 @@ and limitations (MIT).
 
 [npm-url]: https://npmjs.org/package/node-events
 [npm-image]: https://badge.fury.io/js/node-events.png
-
-[travis-url]: http://travis-ci.org/justinfreitag/node-events
-[travis-image]: https://travis-ci.org/justinfreitag/node-events.png?branch=master
 
 [node-events]: http://nodejs.org/api/events.html
 

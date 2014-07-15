@@ -1,13 +1,7 @@
 {
   "name": "node-events",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A drop in replacement for the Node.js Events module",
-  "devDependencies": {
-    "mocha": "1.20.0"
-  },
-  "scripts": {
-    "test": "./node_modules/.bin/mocha -R spec"
-  },
   "engines": {
     "node": ">= 0.10.0"
   },
@@ -15,6 +9,8 @@
     "type": "git",
     "url": "git@github.com:justinfreitag/node-events.git"
   },
+  "homepage": "https://github.com/justinfreitag/node-events",
+  "bugs": "https://github.com/justinfreitag/node-events/issues",
   "keywords": [
     "events",
     "EventEmitter"

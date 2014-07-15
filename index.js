@@ -1,15 +1,15 @@
 'use strict';
 
-function addEventListener(emitter, event, callback, context, type) {
-  if (emitter[type] === null) {
-    emitter[type] = {};
+function addEventListener(listeners, event, listener, type) {
+  if (listeners[type] === undefined) {
+    listeners[type] = {};
   }
-  var typeEvent = emitter[type][event];
-  if (typeEvent == undefined) {
-    emitter[type][event] = typeEvent = [];
+  var typeEvent = listeners[type][event];
+  if (typeEvent === undefined) {
+    listeners[type][event] = typeEvent = [];
   }
 
-  typeEvent[typeEvent.length] = [callback, context];
+  typeEvent[typeEvent.length] = listener;
 }
 
 function removeEventListener(listeners, callback, context) {
@@ -23,9 +23,7 @@ function removeEventListener(listeners, callback, context) {
     }
     return newListeners;
   }
-  return null;
 }
-
 
 function emitEvent(listeners, a1, a2) {
   var listener;
@@ -48,22 +46,22 @@ function emitEvent(listeners, a1, a2) {
 }
 
 function EventEmitter() {
-  this.onListeners = null;
-  this.onceListeners = null;
+  this.onListeners = undefined;
+  this.onceListeners = undefined;
 }
 
 ['on', 'once'].forEach(function (type) {
   EventEmitter.prototype[type] = function (event, callback, context) {
-    addEventListener(this, event, callback, context, type + 'Listeners');
+    addEventListener(this, event, [callback, context], type + 'Listeners');
     return this;
-  }
+  };
 });
 
 EventEmitter.prototype.emit = function (event, a1, a2) {
   var listeners;
   var fired = false;
 
-  if (this.onListeners) {
+  if (this.onListeners !== undefined) {
     listeners = this.onListeners[event];
     if (listeners) {
       emitEvent(listeners, a1, a2);
@@ -71,40 +69,40 @@ EventEmitter.prototype.emit = function (event, a1, a2) {
     }
   }
 
-  if (this.onceListeners) {
+  if (this.onceListeners !== undefined) {
     listeners = this.onceListeners[event];
-    if (listeners) {
-      this.onceListeners[event] = null;
+    if (listeners !== undefined) {
+      this.onceListeners[event] = undefined;
       emitEvent(listeners, a1, a2);
       fired = true;
     }
   }
 
   return fired;
-}
+};
 
 EventEmitter.prototype.listeners = function (event) {
   var onListeners = this.onListeners[event];
   var onceListeners = this.onceListeners[event];
-  if (onListeners) {
-    if (onceListeners) {
+  if (onListeners !== undefined) {
+    if (onceListeners !== undefined) {
       return Array.concat(onListeners, onceListeners);
     }
     return onListeners;
   }
-  if (onceListeners) {
+  if (onceListeners !== undefined) {
     return onceListeners;
   }
 };
 
 EventEmitter.prototype.removeListener = function (event, callback, context) {
-  if (this.onListeners) {
+  if (this.onListeners !== undefined) {
     this.onListeners[event] = removeEventListener(
       this.onListeners[event], callback, context
     );
   }
 
-  if (this.onceListeners) {
+  if (this.onceListeners !== undefined) {
     this.onceListeners[event] = removeEventListener(
       this.onceListeners[event], callback, context
     );
@@ -115,16 +113,16 @@ EventEmitter.prototype.removeListener = function (event, callback, context) {
 
 EventEmitter.prototype.removeAllListeners = function (event) {
   if (event) {
-    if (this.onListeners) {
-      this.onListeners[event] = null;
+    if (this.onListeners !== undefined) {
+      this.onListeners[event] = undefined;
     }
-    if (this.onceListeners) {
-      this.onceListeners[event] = null;
+    if (this.onceListeners !== undefined) {
+      this.onceListeners[event] = undefined;
     }
     return;
   }
 
-  this.onListeners = this.onceListeners = null;
+  this.onListeners = this.onceListeners = undefined;
 
   return this;
 };
